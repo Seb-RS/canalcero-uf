@@ -1,6 +1,7 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import VueApexCharts from 'vue3-apexcharts';
+import vuex from './store'
 
 const app = createApp({});
 
@@ -15,6 +16,7 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .component('apexchart', VueApexCharts)
+      .use(vuex)
       .mount(el);
   },
 });
