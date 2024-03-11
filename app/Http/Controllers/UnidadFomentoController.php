@@ -41,4 +41,28 @@ class UnidadFomentoController extends Controller
             Log::info("message: {$e->getMessage()}");
         }
     }
+
+    public function getUfFromYear($year)
+    {
+        $ufs = UnidadFomento::whereYear('fecha', $year)
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        if (!$ufs) {
+            $response = Http::get('https://mindicador.cl/api/uf/' . $year);
+            $data = $response->json();
+            foreach ($data['serie'] as $item) {
+                UnidadFomento::updateOrCreate(
+                    ['fecha' =>  Carbon::parse($item['fecha'])->toDateString()],
+                    ['valor' => $item['valor']]
+                );
+            }
+
+            $ufs = UnidadFomento::whereYear('fecha', Carbon::now()->year)
+                ->orderBy('fecha', 'desc')
+                ->get();
+        }
+
+        return response()->json($ufs);
+    }
 }
