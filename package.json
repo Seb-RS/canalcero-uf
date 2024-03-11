@@ -17,6 +17,7 @@
         "@inertiajs/vue3": "^1.0.15",
         "@vitejs/plugin-vue": "^5.0.4",
         "apexcharts": "^3.47.0",
-        "vue3-apexcharts": "^1.5.2"
+        "vue3-apexcharts": "^1.5.2",
+        "vuex": "^4.1.0"
     }
 }
