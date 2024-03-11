@@ -13,13 +13,19 @@
                         1 UF <span class="text-cyan-400">=</span> {{ ufToday.valor }} CLP
                     </h2>
                 </div>
+                <Chart :ufs="ufs" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Chart from './Partials/Chart.vue';
+
 export default {
+    components: {
+        Chart
+    },
     props: {
         ufs: {
             type: Object,
