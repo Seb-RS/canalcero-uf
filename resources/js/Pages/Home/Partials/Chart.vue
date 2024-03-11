@@ -7,7 +7,8 @@
                 </option>
             </select>
         </div>
-        <apexchart v-if="showChart" class="text-black" type="line" :options="chartOptions" :series="series"></apexchart>
+        <apexchart v-if="showChart" class="text-black" type="line" :options="chartOptions" :series="series" ref="chart">
+        </apexchart>
     </div>
 </template>
 
@@ -15,19 +16,16 @@
 import VueApexCharts from "vue3-apexcharts";
 import { formatDayMonth } from "@/utils/date";
 import axios from 'axios';
+import { mapMutations } from "vuex";
+import { mapState } from "vuex";
 
 export default {
     components: {
         apexchart: VueApexCharts,
     },
-    props: {
-        ufs: {
-            type: Object,
-            required: true,
-        },
-    },
     mounted() {
         this.dataTransform()
+        this.showChart = true;
     },
     data() {
         return {
@@ -45,7 +43,6 @@ export default {
                             colors: '#22d3ee',
                         },
                     },
-                    tickAmount: 10,
                 },
                 yaxis: {
                     labels: {
@@ -65,24 +62,41 @@ export default {
         };
     },
     methods: {
-        dataTransform() {
-            const dates = this.ufs.map(item => formatDayMonth(item.fecha)).reverse();
-            const values = this.ufs.map(item => item.valor).reverse();
+        dataTransform(date = new Date().getFullYear()) {
+            const dates = this.ufObject.map(item => formatDayMonth(item.fecha)).reverse();
+            const values = this.ufObject.map(item => item.valor).reverse();
 
             this.chartOptions.xaxis.categories = dates;
             this.series[0].data = values;
-            this.series[0].name = `Valor UF ${new Date().getFullYear()}`;
-            this.showChart = true;
-        },
-        getUFbyYear(year) {
-            axios.get('/getUF/' + year)
-                .then(response => {
-                    this.data = response.data;
-                })
-                .catch(error => {
-                    console.error('Error al obtener datos:', error);
+            this.series[0].name = `Valor UF ${date}`;
+
+            const totalItems = this.ufObject.length;
+            const desiredTickCount = 20;
+            const tickAmount = Math.ceil(totalItems / desiredTickCount);
+
+            this.chartOptions.xaxis.tickAmount = tickAmount;
+
+            if (this.$refs.chart) {
+                this.$refs.chart.updateOptions({
+                    xaxis: {
+                        categories: dates,
+                        tickAmount: tickAmount,
+                    },
                 });
-            return this.ufs.filter(item => new Date(item.fecha).getFullYear() === year).map(item => item.valor).reverse();
+            }
+        },
+        ...mapMutations(['setUfObject']),
+        async getUFbyYear(year) {
+            try {
+                const response = await axios.get('/getUF/' + year);
+                this.data = response.data;
+                this.setUfObject(this.data);
+
+                await this.$nextTick();
+                this.dataTransform(year);
+            } catch (error) {
+                console.error('Error al obtener datos:', error);
+            }
         },
     },
     computed: {
@@ -92,7 +106,8 @@ export default {
                 years.push(year);
             }
             return years;
-        }
+        },
+        ...mapState(['ufObject']),
     },
     watch: {
         selectedYear(newYear) {

@@ -13,7 +13,7 @@
                         1 UF <span class="text-cyan-400">=</span> {{ ufToday.valor }} CLP
                     </h2>
                 </div>
-                <Chart class="-ml-[9px] scale-[1.04]" :ufs="ufs" />
+                <Chart v-if="ufObject" class="-ml-[9px] scale-[1.04]" />
             </div>
         </div>
     </div>
@@ -21,6 +21,7 @@
 
 <script>
 import Chart from './Partials/Chart.vue';
+import { mapMutations, mapState } from "vuex";
 
 export default {
     components: {
@@ -36,6 +37,15 @@ export default {
             required: true,
         },
     },
+    mounted() {
+        this.setObject();
+    },
+    methods: {
+        ...mapMutations(['setUfObject']),
+        setObject() {
+            this.setUfObject(this.ufs)
+        }
+    },
     computed: {
         today() {
             const currentDate = new Date();
@@ -43,6 +53,7 @@ export default {
             const formattedDate = currentDate.toLocaleDateString('es-ES', options);
             return formattedDate
         },
+        ...mapState(['ufObject']),
     },
 }
 </script>
