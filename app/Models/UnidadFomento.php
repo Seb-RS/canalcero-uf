@@ -9,10 +9,12 @@ class UnidadFomento extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['fecha', 'valor'];
+    protected $hidden = ['created_at', 'updated_at'];
+
     protected $table = 'unidad_fomento';
     protected $primaryKey = 'fecha';
     protected $keyType = 'date';
     public $incrementing = false;
 
-    protected $fillable = ['valor'];
 }
