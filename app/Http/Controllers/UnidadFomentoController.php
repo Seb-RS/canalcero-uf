@@ -48,7 +48,7 @@ class UnidadFomentoController extends Controller
             ->orderBy('fecha', 'desc')
             ->get();
 
-        if (!$ufs) {
+        if ($ufs->isEmpty()) {
             $response = Http::get('https://mindicador.cl/api/uf/' . $year);
             $data = $response->json();
             foreach ($data['serie'] as $item) {
@@ -58,7 +58,7 @@ class UnidadFomentoController extends Controller
                 );
             }
 
-            $ufs = UnidadFomento::whereYear('fecha', Carbon::now()->year)
+            $ufs = UnidadFomento::whereYear('fecha', $year)
                 ->orderBy('fecha', 'desc')
                 ->get();
         }
