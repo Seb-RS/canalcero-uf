@@ -16,3 +16,5 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [UnidadFomentoController::class, "index"])->name('home');
+
+Route::get('/getUF/{year}', [UnidadFomentoController::class, "getUfFromYear"])->name('home');
