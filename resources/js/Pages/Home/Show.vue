@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen max-h-max bg-gradient-to-t from-[#10191c] to-[#1c4553]">
-        <div class="mx-auto w-full max-w-screen-md px-4 pb-24 pt-20">
+        <div class="mx-auto w-full max-w-screen-md px-4 pb-8 pt-20">
             <div class="max-w-xl w-full h-full flex flex-col justify-center space-y-10">
                 <h1 class="font-bold text-5xl italic text-white">
                     VALOR DE LA <span class="text-cyan-400 underline">UF</span> HOY
