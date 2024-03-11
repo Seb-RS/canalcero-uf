@@ -14,6 +14,7 @@
 <script>
 import VueApexCharts from "vue3-apexcharts";
 import { formatDayMonth } from "@/utils/date";
+import axios from 'axios';
 
 export default {
     components: {
@@ -73,6 +74,16 @@ export default {
             this.series[0].name = `Valor UF ${new Date().getFullYear()}`;
             this.showChart = true;
         },
+        getUFbyYear(year) {
+            axios.get('/getUF/' + year)
+                .then(response => {
+                    this.data = response.data;
+                })
+                .catch(error => {
+                    console.error('Error al obtener datos:', error);
+                });
+            return this.ufs.filter(item => new Date(item.fecha).getFullYear() === year).map(item => item.valor).reverse();
+        },
     },
     computed: {
         years() {
@@ -87,6 +98,7 @@ export default {
         selectedYear(newYear) {
             if (!this.showChart) return;
 
+            this.getUFbyYear(newYear);
         }
     }
 }
