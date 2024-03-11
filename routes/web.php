@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\UnidadFomentoController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [UnidadFomentoController::class, "index"])->name('home');
