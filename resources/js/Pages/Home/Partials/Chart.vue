@@ -33,6 +33,7 @@ export default {
                             colors: '#22d3ee',
                         },
                     },
+                    tickAmount: 10,
                 },
                 yaxis: {
                     labels: {
