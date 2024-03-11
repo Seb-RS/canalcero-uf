@@ -13,7 +13,7 @@
                         1 UF <span class="text-cyan-400">=</span> {{ ufToday.valor }} CLP
                     </h2>
                 </div>
-                <Chart :ufs="ufs" />
+                <Chart class="-ml-[9px] scale-[1.04]" :ufs="ufs" />
             </div>
         </div>
     </div>
