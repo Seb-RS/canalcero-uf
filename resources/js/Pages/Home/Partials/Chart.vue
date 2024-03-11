@@ -34,6 +34,13 @@ export default {
                         },
                     },
                 },
+                yaxis: {
+                    labels: {
+                        style: {
+                            colors: '#22d3ee',
+                        },
+                    },
+                },
                 colors: ['#22d3ee'],
             },
             series: [
