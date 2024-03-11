@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('unidad_fomento', function (Blueprint $table) {
             $table->date('fecha')->primary();
             $table->float('valor');
+            $table->timestamps();
         });
     }
 
