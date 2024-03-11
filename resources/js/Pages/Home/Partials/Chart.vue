@@ -1,10 +1,19 @@
 <template>
-    <apexchart v-if="showChart" class="text-black" type="line" :options="chartOptions" :series="series"></apexchart>
+    <div class="flex flex-col space-y-2">
+        <div class="pl-4 px-2 w-full">
+            <select name="select__year__chart" class="md:w-[200px] w-full text-sm" v-model="selectedYear">
+                <option v-for="year in years" :key="year" :value="year">
+                    {{ year }}
+                </option>
+            </select>
+        </div>
+        <apexchart v-if="showChart" class="text-black" type="line" :options="chartOptions" :series="series"></apexchart>
+    </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
-import { formatDayMonth } from "@/utils/date"
+import { formatDayMonth } from "@/utils/date";
 
 export default {
     components: {
@@ -21,6 +30,8 @@ export default {
     },
     data() {
         return {
+            selectedYear: new Date().getFullYear(),
+            currentYear: new Date().getFullYear(),
             showChart: false,
             chartOptions: {
                 chart: {
@@ -63,5 +74,20 @@ export default {
             this.showChart = true;
         },
     },
+    computed: {
+        years() {
+            const years = [];
+            for (let year = this.currentYear; year >= 1977; year--) {
+                years.push(year);
+            }
+            return years;
+        }
+    },
+    watch: {
+        selectedYear(newYear) {
+            if (!this.showChart) return;
+
+        }
+    }
 }
 </script>
