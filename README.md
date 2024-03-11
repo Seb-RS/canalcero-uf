@@ -1,7 +1,7 @@
 <h1 align="center">Laravel + Vue.js UF</h1>
 
 <p align="center">Aplicación sencilla para mostrar los valores de la Unidad de Fomento a CLP</p>
-<p align="center">Laravel 10 (PHP 8.2>) y VueJS 3</p>
+<p align="center">Laravel 10 (PHP 8.2>) y VueJS 3 (Node 18>)</p>
 
 ## Screenshots
 
